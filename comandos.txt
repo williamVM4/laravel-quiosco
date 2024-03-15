@@ -1,0 +1,59 @@
+npm create vite@latest
+npm run dev
+
+php artisan make:model --migration --controller Categoria
+
+php artisan make:seeder CategoriaSeeder
+https://gist.github.com/codigoconjuan/2286ec5b38301776f6adc105dba0510d
+
+php artisan make:factory CategoriaFactory
+
+php artisan db:seed --class=CategoriaSeeder
+
+php artisan db:seed
+
+php artisan make:resource CategoriaCollection
+php artisan make:resource CategoriaResource
+
+/api/ -> en url
+
+php artisan make:model Producto --resource --api --migration 
+
+https://gist.github.com/codigoconjuan/a4f356244c9a57e876cb0de00558b671
+
+php artisan make:seeder ProductoSeeder
+
+php artisan migrate:refresh --seed
+
+https://dev.mysql.com/downloads/connector/j/
+
+php artisan make:request RegistroRequest
+
+En headers: Accept application/json
+X-Requested-With XMLHttpRequest
+
+  'supports_credentials' => true,
+
+  Authorization
+
+  Berarer token
+
+
+  {
+  "total": 100.50,
+  "productos": [
+    {
+      "id": 1,
+      "cantidad": 2
+    },
+    {
+      "id": 15,
+      "cantidad": 1
+    },
+    {
+      "id": 30,
+      "cantidad": 3
+    }
+    // Continúa con los demás productos que desees incluir
+  ]
+}
