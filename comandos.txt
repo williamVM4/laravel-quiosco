@@ -57,3 +57,66 @@ X-Requested-With XMLHttpRequest
     // Continúa con los demás productos que desees incluir
   ]
 }
+
+https://notasweb.me/entrada/crear-un-api-rest-en-laravel/
+
+
+Las políticas en Laravel son clases que organizan la lógica de autorización alrededor de un modelo o recurso en particular. Aquí hay un ejemplo de cómo podría verse una política para el modelo Pedido:
+
+php artisan make:policy PedidoPolicy --model=Pedido
+
+namespace App\Policies;
+
+use App\Models\User;
+use App\Models\Pedido;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class PedidoPolicy
+{
+    use HandlesAuthorization;
+
+    /**
+     * Determine whether the user can view the pedido.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Pedido  $pedido
+     * @return mixed
+     */
+    public function view(User $user, Pedido $pedido)
+    {
+        // Reemplaza esto con tu propia lógica
+        return $user->id === $pedido->user_id;
+    }
+
+    /**
+     * Determine whether the user can delete the pedido.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Pedido  $pedido
+     * @return mixed
+     */
+    public function delete(User $user, Pedido $pedido)
+    {
+        // Reemplaza esto con tu propia lógica
+        return $user->id === $pedido->user_id;
+    }
+
+    // Puedes agregar más métodos para otras acciones como 'create', 'update', etc.
+
+}
+
+
+    En este ejemplo, la política tiene dos métodos: view y delete. Cada método recibe una instancia del User autenticado y una instancia del Pedido que se está intentando ver o eliminar.
+
+Cada método debe devolver true si el usuario tiene permiso para realizar la acción, y false en caso contrario.
+
+Para registrar esta política, debes agregarla al array $policies en tu AuthServiceProvider:
+
+
+protected $policies = [
+    Pedido::class => PedidoPolicy::class,
+];
+
+
+
+https://notasweb.me/entrada/crear-un-api-rest-en-laravel/

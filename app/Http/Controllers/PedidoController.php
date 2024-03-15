@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pedido;
-use App\Models\PedidoProducto;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\Pedido;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Models\PedidoProducto;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\PedidoCollection;
 
 class PedidoController extends Controller
@@ -17,6 +18,7 @@ class PedidoController extends Controller
     public function index()
     {
         return new PedidoCollection(Pedido::with('user')->with('productos')->where('estado', 0)->get());
+        //return response()->json(['data' => new PedidoCollection(Pedido::with('user')->with('productos')->where('estado', 0)->get())]);
     }
 
     /**
@@ -49,15 +51,33 @@ class PedidoController extends Controller
         return response([
             'message' => 'Pedido creado con exito, estará listo en unos minutos',
             'pedido' => $pedido
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pedido $pedido)
+    // public function show(Pedido $pedido)
+    // {
+    //     $pedido = Pedido::with('productos')->find($pedido->id);
+    //     return response([
+    //         'pedido' => $pedido
+    //     ], 200);
+    // }
+
+    public function show($id)
     {
-        //
+        $pedido = Pedido::with('productos')->find($id);
+
+        if ($pedido) {
+            return response([
+                'pedido' => $pedido
+            ], 200);
+        } else {
+            return response([
+                'message' => 'Pedido no encontrado'
+            ], 404);
+        }
     }
 
     /**
@@ -80,6 +100,9 @@ class PedidoController extends Controller
      */
     public function destroy(Pedido $pedido)
     {
-        //
+        $pedido->delete();
+        return response([
+            'message' => 'Pedido eliminado con exito'
+        ], 200);
     }
 }
